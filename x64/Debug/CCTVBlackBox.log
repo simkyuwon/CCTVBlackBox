@@ -1,0 +1,41 @@
+﻿  CCTVBlackBox.cpp
+  CCTVBlackBoxDlg.cpp
+C:\Users\admin\Desktop\workspace\CCTVBlackBox\CCTVBlackBox\CCTVBlackBoxDlg.cpp(252,30): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\admin\Desktop\workspace\CCTVBlackBox\CCTVBlackBox\CCTVBlackBoxDlg.cpp(262,30): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  imageProcessing.cpp
+C:\Users\admin\Desktop\workspace\CCTVBlackBox\CCTVBlackBox\imageProcessing.cpp(74,34): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\admin\Desktop\workspace\CCTVBlackBox\CCTVBlackBox\imageProcessing.cpp(215,47): warning C4267: '초기화 중': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\admin\Desktop\workspace\CCTVBlackBox\CCTVBlackBox\imageProcessing.cpp(216,49): warning C4267: '초기화 중': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\admin\Desktop\workspace\CCTVBlackBox\CCTVBlackBox\imageProcessing.cpp(361,112): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\include\utility(151,16): warning C4244: '초기화 중': '_Ty'에서 '_Ty1'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+          with
+          [
+              _Ty=int
+          ]
+          and
+          [
+              _Ty1=float
+          ]
+C:\Users\admin\Desktop\workspace\CCTVBlackBox\CCTVBlackBox\imageProcessing.cpp(134): message : 컴파일되는 함수 템플릿 인스턴스화 'std::pair<float,float>::pair<int,int,0>(_Other1 &&,_Other2 &&) noexcept'에 대한 참조를 확인하세요.
+          with
+          [
+              _Other1=int,
+              _Other2=int
+          ]
+C:\Users\admin\Desktop\workspace\CCTVBlackBox\CCTVBlackBox\imageProcessing.cpp(134): message : 컴파일되는 함수 템플릿 인스턴스화 'std::pair<float,float>::pair<int,int,0>(_Other1 &&,_Other2 &&) noexcept'에 대한 참조를 확인하세요.
+          with
+          [
+              _Other1=int,
+              _Other2=int
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\include\utility(151,1): warning C4244: '초기화 중': '_Ty'에서 '_Ty2'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+          with
+          [
+              _Ty=int
+          ]
+          and
+          [
+              _Ty2=float
+          ]
+  코드를 생성하고 있습니다...
+  CCTVBlackBox.vcxproj -> C:\Users\admin\Desktop\workspace\CCTVBlackBox\x64\Debug\CCTVBlackBox.exe
