@@ -46,7 +46,7 @@ public:
 	LRESULT OnTrayNotifyAction(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnBnClickedOpenFolder();
 	afx_msg void OnBnClickedDebug();
-	afx_msg void OnBnClickedCheck1();
 	CButton m_alarm;
 	afx_msg void OnBnClickedAlarmonoff();
+	afx_msg void OnBnClickedBnhelp();
 };

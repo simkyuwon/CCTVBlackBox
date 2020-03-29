@@ -46,6 +46,55 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 END_MESSAGE_MAP()
 
+// 설명 대화 상자
+class CHelpDlg : public CDialogEx {
+public:
+	CHelpDlg();
+// 대화 상자 데이터입니다.
+#ifdef AFX_DESIGN_TIME
+	enum { IDD = IDD_ABOUTBOX };
+#endif
+
+protected:
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 지원입니다.
+	
+// 구현입니다.
+protected:
+	afx_msg void OnPaint();
+	DECLARE_MESSAGE_MAP()
+
+};
+
+CHelpDlg::CHelpDlg() : CDialogEx(IDD_CHelpDlg)
+{
+}
+
+void CHelpDlg::OnPaint() {
+	CPaintDC dc(this); // 그리기를 위한 디바이스 컨텍스트
+
+	CDC MemDC;
+	CBitmap bmp;
+	BITMAP bmpInfo;
+	
+	// Then load the bitmap to the memory.
+	MemDC.CreateCompatibleDC(&dc);
+	bmp.LoadBitmap(IDB_HELP);
+	MemDC.SelectObject(&bmp);
+
+	bmp.GetBitmap(&bmpInfo);
+	SetWindowPos(NULL, 0, 0, bmpInfo.bmWidth + 15, bmpInfo.bmHeight + 30, SWP_NOMOVE);
+	// dialog surface.
+	dc.BitBlt(0, 0, bmpInfo.bmWidth, bmpInfo.bmWidth, &MemDC, 0, 0, SRCCOPY);
+}
+
+void CHelpDlg::DoDataExchange(CDataExchange* pDX)
+{
+	CDialogEx::DoDataExchange(pDX);
+}
+
+BEGIN_MESSAGE_MAP(CHelpDlg, CDialogEx)
+	ON_WM_PAINT()
+END_MESSAGE_MAP()
 
 // CCCTVBlackBoxDlg 대화 상자
 
@@ -80,6 +129,7 @@ BEGIN_MESSAGE_MAP(CCCTVBlackBoxDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_OPEN_FOLDER, &CCCTVBlackBoxDlg::OnBnClickedOpenFolder)
 	ON_BN_CLICKED(IDC_DEBUG, &CCCTVBlackBoxDlg::OnBnClickedDebug)
 	ON_BN_CLICKED(IDC_ALARMONOFF, &CCCTVBlackBoxDlg::OnBnClickedAlarmonoff)
+	ON_BN_CLICKED(IDC_BNHELP, &CCCTVBlackBoxDlg::OnBnClickedBnhelp)
 END_MESSAGE_MAP()
 
 
@@ -327,4 +377,10 @@ void CCCTVBlackBoxDlg::OnBnClickedDebug()
 void CCCTVBlackBoxDlg::OnBnClickedAlarmonoff()
 {
 	setting->setAlarm(m_alarm.GetCheck());
+}
+
+void CCCTVBlackBoxDlg::OnBnClickedBnhelp()
+{
+	CHelpDlg dlg;
+	dlg.DoModal();
 }
