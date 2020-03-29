@@ -272,7 +272,7 @@ bool imageProcessing(const WCHAR* filePathWC, bool maximum, bool minimum) {
 	GetEncoderClsid(L"image/jpeg", &clsid);
 
 	if (edge[endIdx].size() / (float)prevSize < 0.8) {
-		if (nowClock - setting->getAlarmClock() > setting->getAlarmInterval() * 1000) {
+		if ((nowClock - setting->getAlarmClock() > setting->getAlarmInterval() * 1000) && setting->getAlarm()) {
 			NOTIFYICONDATA nid;
 			ZeroMemory(&nid, sizeof(nid));
 			nid.cbSize = sizeof(nid);

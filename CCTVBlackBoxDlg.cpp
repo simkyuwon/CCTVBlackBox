@@ -67,6 +67,7 @@ void CCCTVBlackBoxDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_THRESHOLD, Edit_Threshold);
 	DDX_Control(pDX, IDC_MATCHING, Edit_Matching);
 	DDX_Control(pDX, IDC_DEBUG, m_debug);
+	DDX_Control(pDX, IDC_ALARMONOFF, m_alarm);
 }
 
 BEGIN_MESSAGE_MAP(CCCTVBlackBoxDlg, CDialogEx)
@@ -78,6 +79,7 @@ BEGIN_MESSAGE_MAP(CCCTVBlackBoxDlg, CDialogEx)
 	ON_MESSAGE(WM_TRAY_NOTIFYICACTION, OnTrayNotifyAction)
 	ON_BN_CLICKED(IDC_OPEN_FOLDER, &CCCTVBlackBoxDlg::OnBnClickedOpenFolder)
 	ON_BN_CLICKED(IDC_DEBUG, &CCCTVBlackBoxDlg::OnBnClickedDebug)
+	ON_BN_CLICKED(IDC_ALARMONOFF, &CCCTVBlackBoxDlg::OnBnClickedAlarmonoff)
 END_MESSAGE_MAP()
 
 
@@ -146,6 +148,9 @@ BOOL CCCTVBlackBoxDlg::OnInitDialog()
 	Edit_Threshold.SetWindowText(str);
 	str.Format(_T("%f"), setting->getMatching());
 	Edit_Matching.SetWindowText(str);
+
+	CheckDlgButton(IDC_ALARMONOFF, BST_CHECKED);
+	setting->setAlarm(true);
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -317,4 +322,9 @@ void CCCTVBlackBoxDlg::OnBnClickedOpenFolder()
 void CCCTVBlackBoxDlg::OnBnClickedDebug()
 {
 	setting->setDebug(m_debug.GetCheck());
+}
+
+void CCCTVBlackBoxDlg::OnBnClickedAlarmonoff()
+{
+	setting->setAlarm(m_alarm.GetCheck());
 }

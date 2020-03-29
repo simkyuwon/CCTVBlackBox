@@ -66,6 +66,10 @@ void CSetting::setDebug(bool chk) {
 	debug = chk;
 }
 
+void CSetting::setAlarm(bool chk) {
+	alarm = chk;
+}
+
 pair<int, int> CSetting::getSaveInterval() {
 	return saveInterval;
 }
@@ -111,6 +115,10 @@ char* CSetting::getImagePath() {
 
 bool CSetting::getDebug() {
 	return debug;
+}
+
+bool CSetting::getAlarm() {
+	return alarm;
 }
 
 void CSetting::readSetting(const char *var, int *ret, int default) {
