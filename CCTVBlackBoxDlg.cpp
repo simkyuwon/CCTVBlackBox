@@ -66,6 +66,7 @@ void CCCTVBlackBoxDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_SAVE_MAX, Edit_SaveMax);
 	DDX_Control(pDX, IDC_THRESHOLD, Edit_Threshold);
 	DDX_Control(pDX, IDC_MATCHING, Edit_Matching);
+	DDX_Control(pDX, IDC_DEBUG, m_debug);
 }
 
 BEGIN_MESSAGE_MAP(CCCTVBlackBoxDlg, CDialogEx)
@@ -76,6 +77,7 @@ BEGIN_MESSAGE_MAP(CCCTVBlackBoxDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_HIDE, &CCCTVBlackBoxDlg::OnBnClickedHide)
 	ON_MESSAGE(WM_TRAY_NOTIFYICACTION, OnTrayNotifyAction)
 	ON_BN_CLICKED(IDC_OPEN_FOLDER, &CCCTVBlackBoxDlg::OnBnClickedOpenFolder)
+	ON_BN_CLICKED(IDC_DEBUG, &CCCTVBlackBoxDlg::OnBnClickedDebug)
 END_MESSAGE_MAP()
 
 
@@ -133,17 +135,17 @@ BOOL CCCTVBlackBoxDlg::OnInitDialog()
 	extern CSetting* setting;
 	CString str;
 	str.Format(_T("%d"), setting->getTimerInterval());
-	Edit_Timer.SetWindowTextW(str);
+	Edit_Timer.SetWindowText(str);
 	str.Format(_T("%d"), setting->getAlarmInterval());
-	Edit_Alarm.SetWindowTextW(str);
+	Edit_Alarm.SetWindowText(str);
 	str.Format(_T("%d"), setting->getSaveInterval().first);
-	Edit_SaveMin.SetWindowTextW(str);
+	Edit_SaveMin.SetWindowText(str);
 	str.Format(_T("%d"), setting->getSaveInterval().second);
-	Edit_SaveMax.SetWindowTextW(str);
+	Edit_SaveMax.SetWindowText(str);
 	str.Format(_T("%f"), setting->getThreshold());
-	Edit_Threshold.SetWindowTextW(str);
+	Edit_Threshold.SetWindowText(str);
 	str.Format(_T("%f"), setting->getMatching());
-	Edit_Matching.SetWindowTextW(str);
+	Edit_Matching.SetWindowText(str);
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -202,7 +204,7 @@ extern CSetting* setting;
 void CCCTVBlackBoxDlg::OnBnClickedOk()
 {
 	CString str;
-	Edit_Timer.GetWindowTextW(str);
+	Edit_Timer.GetWindowText(str);
 	for (int i = 0; i < str.GetLength(); i++) {
 		if (str.GetAt(i) < '0' || str.GetAt(i) > '9') {
 			MessageBox(_T("타이머 입력 에러"));
@@ -212,7 +214,7 @@ void CCCTVBlackBoxDlg::OnBnClickedOk()
 	if(str.GetLength())
 		setting->setTimerInterval(_ttoi(str));
 
-	Edit_Alarm.GetWindowTextW(str);
+	Edit_Alarm.GetWindowText(str);
 	for (int i = 0; i < str.GetLength(); i++) {
 		if (str.GetAt(i) < '0' || str.GetAt(i) > '9') {
 			MessageBox(_T("알람 입력 에러"));
@@ -222,7 +224,7 @@ void CCCTVBlackBoxDlg::OnBnClickedOk()
 	if (str.GetLength())
 		setting->setAlarmInterval(_ttoi(str));
 
-	Edit_SaveMin.GetWindowTextW(str);
+	Edit_SaveMin.GetWindowText(str);
 	for (int i = 0; i < str.GetLength(); i++) {
 		if (str.GetAt(i) < '0' || str.GetAt(i) > '9') {
 			MessageBox(_T("저장 주기 입력 에러"));
@@ -231,7 +233,7 @@ void CCCTVBlackBoxDlg::OnBnClickedOk()
 	}
 	int min = _ttoi(str);
 
-	Edit_SaveMax.GetWindowTextW(str);
+	Edit_SaveMax.GetWindowText(str);
 	for (int i = 0; i < str.GetLength(); i++) {
 		if (str.GetAt(i) < '0' || str.GetAt(i) > '9') {
 			MessageBox(_T("저장 주기 입력 에러"));
@@ -241,9 +243,9 @@ void CCCTVBlackBoxDlg::OnBnClickedOk()
 	if (str.GetLength())
 		setting->setSaveInterval({ min, _ttoi(str) });
 
-	Edit_Threshold.GetWindowTextW(str);
+	Edit_Threshold.GetWindowText(str);
 	for (int i = 0; i < str.GetLength(); i++) {
-		if ((str.GetAt(i) > '0' && str.GetAt(i) < '9') || str.GetAt(i) == '.') {
+		if (!((str.GetAt(i) >= '0' && str.GetAt(i) <= '9') || str.GetAt(i) == '.')) {
 			MessageBox(_T("코너 임계값 입력 에러"));
 			return;
 		}
@@ -251,15 +253,15 @@ void CCCTVBlackBoxDlg::OnBnClickedOk()
 	if (str.GetLength())
 		setting->setThreshold(_ttof(str));
 
-	Edit_Matching.GetWindowTextW(str);
+	Edit_Matching.GetWindowText(str);
 	for (int i = 0; i < str.GetLength(); i++) {
-		if ((str.GetAt(i) > '0' && str.GetAt(i) < '9') || str.GetAt(i) == '.') {
+		if (!((str.GetAt(i) >= '0' && str.GetAt(i) <= '9') || str.GetAt(i) == '.')) {
 			MessageBox(_T("매칭 기준값 입력 에러"));
 			return;
 		}
 	}
 	if (str.GetLength())
-		setting->setThreshold(_ttof(str));
+		setting->setMatching(_ttof(str));
 
 	MessageBox(_T("업데이트 완료"));
 
@@ -276,7 +278,7 @@ void CCCTVBlackBoxDlg::OnBnClickedHide()
 	nid.uID = 0;
 	nid.uFlags = NIF_ICON | NIF_TIP | NIF_MESSAGE;
 	nid.hWnd = m_hWnd;
-	nid.hIcon = AfxGetApp()->LoadIconW(IDR_MAINFRAME);
+	nid.hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	nid.uCallbackMessage = WM_TRAY_NOTIFYICACTION;
 
 	lstrcpy(nid.szTip, _T("CCTV BlackBox"));
@@ -310,4 +312,9 @@ LRESULT CCCTVBlackBoxDlg::OnTrayNotifyAction(WPARAM wParam, LPARAM lParam) {
 void CCCTVBlackBoxDlg::OnBnClickedOpenFolder()
 {
 	ShellExecuteA(NULL, "explore", setting->getImagePath(), NULL, NULL, SW_SHOWNORMAL);
+}
+
+void CCCTVBlackBoxDlg::OnBnClickedDebug()
+{
+	setting->setDebug(m_debug.GetCheck());
 }

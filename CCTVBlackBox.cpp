@@ -54,8 +54,8 @@ BOOL CCCTVBlackBoxApp::InitInstance()
 
 	CWinApp::InitInstance();
 
-	AllocConsole();//init concole
-/*	FILE* stream;
+/*	AllocConsole();//init concole
+	FILE* stream;
 	freopen_s(&stream, "CONIN$", "r", stdin);
 	freopen_s(&stream, "CONOUT$", "w", stdout);
 	freopen_s(&stream, "CONOUT$", "w", stderr);*/

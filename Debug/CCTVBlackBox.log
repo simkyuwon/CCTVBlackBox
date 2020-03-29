@@ -1,3 +1,0 @@
-﻿  CCTVBlackBoxDlg.cpp
-C:\Users\admin\Desktop\workspace\CCTVBlackBox\CCTVBlackBox\CCTVBlackBoxDlg.cpp(247): warning C4715: 'CCCTVBlackBoxDlg::OnTrayNotifyAction': 모든 제어 경로에서 값을 반환하지는 않습니다.
-  CCTVBlackBox.vcxproj -> C:\Users\admin\Desktop\workspace\CCTVBlackBox\Debug\CCTVBlackBox.exe

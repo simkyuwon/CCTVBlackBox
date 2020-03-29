@@ -42,10 +42,12 @@ void CSetting::setAlarmInterval(int alarminterval) {
 
 void CSetting::setThreshold(float th) {
 	threshold = th;
+	writeSetting("threshold", threshold);
 }
 
 void CSetting::setMatching(float rate) {
 	matching = rate;
+	writeSetting("matching", matching);
 }
 
 void CSetting::setTimerId(UINT_PTR id) {
@@ -58,6 +60,10 @@ void CSetting::setAlarmClock(clock_t clk) {
 
 void CSetting::setsSaveClock(clock_t clk) {
 	saveClock = clk;
+}
+
+void CSetting::setDebug(bool chk) {
+	debug = chk;
 }
 
 pair<int, int> CSetting::getSaveInterval() {
@@ -101,6 +107,10 @@ char* CSetting::getMainPath() {
 
 char* CSetting::getImagePath() {
 	return imagePath;
+}
+
+bool CSetting::getDebug() {
+	return debug;
 }
 
 void CSetting::readSetting(const char *var, int *ret, int default) {

@@ -28,6 +28,7 @@ private:
 	char settingPath[256];
 	UINT_PTR timerId;
 	clock_t alarmClock, saveClock;
+	bool debug;
 public:
 	CSetting();
 	void setSaveInterval(pair<int, int> savedelay);
@@ -38,6 +39,7 @@ public:
 	void setMatching(float rate);
 	void setAlarmClock(clock_t clk);
 	void setsSaveClock(clock_t clk);
+	void setDebug(bool chk);
 	pair<int, int>getSaveInterval();
 	int getDeleteInterval();
 	int getTimerInterval();
@@ -49,6 +51,7 @@ public:
 	clock_t getSaveClock();
 	char* getMainPath();
 	char* getImagePath();
+	bool getDebug();
 
 	void readSetting(const char *var, int *ret, int default);
 	void readSetting(const char *var, float *ret, float default);

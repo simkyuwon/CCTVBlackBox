@@ -27,6 +27,7 @@ public:
 protected:
 	HICON m_hIcon;
 	CFont m_font;
+	CButton m_debug;
 
 	// 생성된 메시지 맵 함수
 	virtual BOOL OnInitDialog();
@@ -44,4 +45,5 @@ public:
 	afx_msg void OnBnClickedHide();
 	LRESULT OnTrayNotifyAction(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnBnClickedOpenFolder();
+	afx_msg void OnBnClickedDebug();
 };

@@ -109,7 +109,7 @@ bool imageProcessing(const WCHAR* filePathWC, bool maximum, bool minimum) {
 	BitBlt(memdc, 0, 0, Width, Height, scrdc, monitor.getPoint().first, monitor.getPoint().second, SRCCOPY);
 
 	Bitmap *origin = new Bitmap(membit, NULL);
-//	Bitmap *change = new Bitmap(resizeWidth, resizeHeight, PixelFormat32bppARGB);
+	Bitmap *change = new Bitmap(resizeWidth, resizeHeight, PixelFormat32bppARGB);
 
 	BitmapData *bitmapData = new BitmapData;
 	Rect rect(0, 0, Width, Height);
@@ -162,10 +162,10 @@ bool imageProcessing(const WCHAR* filePathWC, bool maximum, bool minimum) {
 		}
 	}
 
-//	Rect resizeRect(0, 0, resizeWidth, resizeHeight);
+	Rect resizeRect(0, 0, resizeWidth, resizeHeight);
 
-//	change->LockBits(&resizeRect, ImageLockModeWrite, PixelFormat32bppARGB, bitmapData);
-//	pixels = (pixelARGB*)(bitmapData->Scan0);
+	change->LockBits(&resizeRect, ImageLockModeWrite, PixelFormat32bppARGB, bitmapData);
+	pixels = (pixelARGB*)(bitmapData->Scan0);
 
 	float K = 0.04f;//corner detection
 	float th = setting->getThreshold();
@@ -188,7 +188,7 @@ bool imageProcessing(const WCHAR* filePathWC, bool maximum, bool minimum) {
 					nowCorner->push_back(idx);
 				}
 			}
-	//		pixels[idx] = { grayArr[idx], grayArr[idx], grayArr[idx], 0 };
+			if(setting->getDebug()) pixels[idx] = { grayArr[idx], grayArr[idx], grayArr[idx], 0 };
 		}
 	}
 
@@ -199,15 +199,16 @@ bool imageProcessing(const WCHAR* filePathWC, bool maximum, bool minimum) {
 			else return false;
 			});
 
-	/*
-	for (int i = 0; i < maxSize; i++) {
-		int idx = nowCorner->at(i);
-		for (int y = -2; y <= 2; y++) {
-			for (int x = -2; x <= 2; x++) {
-				pixels[idx + y * resizeWidth + x] = { 0, 0, grayArr[idx + y * resizeWidth + x], 0 };
+	if (setting->getDebug()) {
+		for (int i = 0; i < maxSize; i++) {
+			int idx = nowCorner->at(i);
+			for (int y = -2; y <= 2; y++) {
+				for (int x = -2; x <= 2; x++) {
+					pixels[idx + y * resizeWidth + x] = { 0, 0, grayArr[idx + y * resizeWidth + x], 0 };
+				}
 			}
 		}
-	}*/
+	}
 
 	pair<int, pair<int, int>> cost[maxSize * 2 + 2];//cost, <root, idx>
 	bool inQ[maxSize * 2 + 2];
@@ -265,7 +266,7 @@ bool imageProcessing(const WCHAR* filePathWC, bool maximum, bool minimum) {
 		delete prevCorner;
 	prevCorner = nowCorner;
 
-//	change->UnlockBits(bitmapData);
+	change->UnlockBits(bitmapData);
 
 	CLSID clsid;
 	GetEncoderClsid(L"image/jpeg", &clsid);
@@ -278,7 +279,7 @@ bool imageProcessing(const WCHAR* filePathWC, bool maximum, bool minimum) {
 			nid.uID = 0;
 			nid.uFlags = NIF_MESSAGE | NIF_INFO | NIF_ICON;
 			nid.hWnd = NULL;
-			nid.hIcon = AfxGetApp()->LoadIconW(IDR_MAINFRAME);
+			nid.hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 
 			nid.dwInfoFlags = NIIF_INFO;
 
@@ -300,15 +301,16 @@ bool imageProcessing(const WCHAR* filePathWC, bool maximum, bool minimum) {
 		origin->Save(filePathWC, &clsid, NULL);
 		setting->setsSaveClock(nowClock);
 	}
+
+	if (setting->getDebug()) {
+		WCHAR debugFilePathWC[256];
+		swprintf_s(debugFilePathWC, L"%ls(debug).jpeg", wstring(filePathWC).substr(0, lstrlenW(filePathWC) - 5).c_str());
+		change->Save(debugFilePathWC, &clsid, NULL);
+	}
 	
-	/*
-	WCHAR debugFilePathWC[256];
-	swprintf_s(debugFilePathWC, L"%ls(debug).jpeg", wstring(filePathWC).substr(0, lstrlenW(filePathWC) - 5).c_str());
-	change->Save(debugFilePathWC, &clsid, NULL);
-	*/
 	delete bitmapData;
 	delete origin;
-//	delete change;
+	delete change;
 	DeleteObject(memdc);
 	DeleteObject(membit);
 	ReleaseDC(NULL, scrdc);
